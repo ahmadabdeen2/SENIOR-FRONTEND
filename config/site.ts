@@ -17,7 +17,28 @@ export const siteConfig = {
       title: "Sign Up",
       href: "/sign-up",
     },
+    {
+      title: "Login",
+      href: "/login",
+    },
   ],
+
+  loggedInNav: [
+    {
+      title: "Home",
+      href: "/",
+    },
+    {
+      title: "About",
+      href: "/about",
+    },
+    {
+      title: "Dashboard",
+      href: "/dashboard",
+    },
+  ],
+
+
   links: {
     twitter: "https://twitter.com/shadcn",
     github: "https://github.com/shadcn/ui",
@@ -25,5 +46,6 @@ export const siteConfig = {
     about: "/about",
     signUp: "/sign-up",
     login: "/login",
+    dashboard: "/dashboard",
   },
 }

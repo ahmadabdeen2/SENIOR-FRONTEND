@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/classnames-order */
-"use client"
+'use client'
 import Link from "next/link"
 
 import {
@@ -13,10 +13,13 @@ import {
 } from "@/components/ui/table"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 
 
 import { Textarea } from "@/components/ui/textarea"
+
+import useLocalStorage from "@/lib/hooks"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
@@ -68,17 +71,26 @@ const commits = [
 ]
 
 export default function IndexPage() {
+  const router = useRouter()
+
+  const token = localStorage.getItem("token")
 
   const [html,setHtml] = useState("")
   const [css,setCss] = useState("")
   const [js,setJs] = useState("")
+  console.log(token)
+  if (token == null) {
+    router.push("/login")
+
+  }
+
 
 
   return (
     <section className="container grid gap-10 pb-8 pt-6 md:py-10">
       <div className="flex w-full flex-col items-start gap-2">
         <h1 className="text-xl font-extrabold leading-10 tracking-tighter">
-        Hello Ahmad
+        Hello {localStorage.getItem("username")}
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground sm:text-lg">
         Welcome back to your IDE

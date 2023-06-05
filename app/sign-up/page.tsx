@@ -3,8 +3,12 @@
 import Link from "next/link"
 import { useState } from "react"
 
+import { useRouter } from 'next/navigation';
+
+
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
+import { Toaster, toast } from "react-hot-toast"
 import {
   Card,
   CardContent,
@@ -28,6 +32,7 @@ import {
 
 
 export default function IndexPage() {
+  const router = useRouter()
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // TODO: POST request to your Django backend with the email, password, and features.
@@ -38,7 +43,7 @@ export default function IndexPage() {
       password: password,
     }
     console.log(data)
-    const response = await fetch('http://34.165.26.38:8001/api/register/', {
+    const response = await fetch('http://127.0.0.1:8000/api/register/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,6 +53,17 @@ export default function IndexPage() {
     })
     const responseData = await response.json()
     console.log(responseData)
+    if (response.ok) {
+      toast.success("Successfully Registered")
+      setName("")
+      setEmail("")
+      setPassword("")
+      router.push(siteConfig.links.login)
+    } else {
+      toast.error("Something went wrong")
+    }
+
+
   };
 
 
@@ -56,6 +72,7 @@ export default function IndexPage() {
   const [password,setPassword] = useState("")
   return (
     <section className="container grid items-center gap-10 pb-8 pt-6 md:py-10 h-[90vh]">
+      <div><Toaster/></div>
       <div className="flex w-full flex-col items-center gap-2">
      <Card className="w-[500px] flex flex-col items-center">
       <CardHeader>

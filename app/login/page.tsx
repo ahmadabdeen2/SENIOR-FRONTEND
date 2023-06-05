@@ -15,10 +15,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { features } from "process"
+import { useRouter } from 'next/navigation';
+import { Toaster, toast } from "react-hot-toast"
+
 
 
 
 export default function IndexPage() {
+  const router = useRouter()
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [features, setFeatures] = useState<number[]>([])
@@ -44,10 +49,6 @@ const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
   console.log(e.key)
   setKeyReleaseTimes((prev) => [...prev, performance.now()]);
 }
-
-
-
-
 
 
 const onPasswordFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -111,6 +112,8 @@ const onPasswordReturn = (e: any) => {
 
 
 useEffect(() => {
+
+
   const fetchToken = async () => {
     // Only make the API call when features are updated and the form is being submitted
     if (isFeaturesUpdated) {
@@ -121,7 +124,7 @@ useEffect(() => {
       }
 
       console.log(JSON.stringify(data))
-      const response = await fetch("http://34.165.26.38:8001/api/token/", {
+      const response = await fetch("http://127.0.0.1:8000/api/token/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -130,7 +133,23 @@ useEffect(() => {
       })
 
       const responseData = await response.json()
-      console.log(responseData)
+      if (response.ok) {
+        localStorage.setItem("token", responseData.access)
+        localStorage.setItem("refresh", responseData.refresh)
+        localStorage.setItem("username", username)
+        toast.success("Successfully Logged In")
+        router.push("/dashboard")
+        router.refresh()
+        setUsername("")
+        setPassword("")
+
+      } else {
+        toast.error("Invalid Credentials")
+      }
+
+
+
+
 
       // reset isFeaturesUpdated after the API call
       setIsFeaturesUpdated(false);
@@ -146,6 +165,7 @@ const handleSubmit = (e: any) => {
 }
   return (
     <section className="container grid items-center gap-10 pb-8 pt-6 md:py-10 h-[90vh]">
+      <div> < Toaster/></div>
       <div className="flex w-full flex-col items-center gap-2">
         <Card className="w-[500px] flex flex-col items-center">
           <CardHeader>

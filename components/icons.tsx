@@ -4,6 +4,7 @@ import {
   SunMedium,
   Twitter,
   type Icon as LucideIcon,
+  LogOut,
 } from "lucide-react"
 
 import logo from "../public/logo.svg"
@@ -14,6 +15,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   twitter: Twitter,
+  logout: LogOut,
   logo:logo,
   // logo: (props: LucideProps) => (
   //   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
